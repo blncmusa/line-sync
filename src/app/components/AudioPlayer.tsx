@@ -4,13 +4,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useStore } from "../../store/useStore";
 
 const AudioPlayer: React.FC = () => {
-  const { audioFile } = useStore();
+  const { audioFile, setAudioFile } = useStore();
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement>(null);
+
+
+  const handleAudioUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setAudioFile(URL.createObjectURL(file));
+    }
+  };
 
   const togglePlayPause = () => {
     if (audioRef.current) {
@@ -48,8 +56,15 @@ const AudioPlayer: React.FC = () => {
     }
   };
 
-  return (
-    <div className="flex w-full items-center space-x-4">
+  if(!audioFile) return (
+    <div>
+      <h1>Upload Audio File</h1>
+      <input type="file" accept="audio/*" onChange={handleAudioUpload} />
+    </div>
+  )
+
+ return (
+    <div className="flex w-full items-center space-x-4 border-b-4 pb-5">
       <audio
         ref={audioRef}
         className="hidden"

@@ -17,6 +17,17 @@ const Script: React.FC = () => {
     }
   };
 
+  const splitTextIntoLines = (text: string, wordsPerLine: number) => {
+    const words = text.split(" ");
+    const lines = [];
+    for (let i = 0; i < words.length; i += wordsPerLine){
+        lines.push(words.slice(i, i + wordsPerLine).join(" "));
+    }
+    return lines;
+  }
+
+  const lines = scriptContent ? splitTextIntoLines(scriptContent, 8) : [];
+
   return (
     <div>
       {!scriptFile && (
@@ -26,8 +37,10 @@ const Script: React.FC = () => {
         </div>
       )}
       {scriptFile && (
-        <div className={`font-cairo text-lg ${isArabic(scriptContent || "") ? "text-right" : "text-left"}`}>
-          <pre>{scriptContent}</pre>
+        <div className={`${isArabic(scriptContent || "") ? "text-right" : "text-left"}`}>
+            { lines.map((line, index) => {
+                return <p key={index} className="lines">{line}</p>;
+            })}
         </div>
       )}
     </div>

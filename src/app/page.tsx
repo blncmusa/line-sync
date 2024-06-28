@@ -16,18 +16,14 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full border-4 h-screen items-center justify-center flex gap-3">
-      <div className="flex gap-[50px] flex-col">
-        <div>
-          {!audioFile && (
-            <div>
-              <h1>Upload Audio File</h1>
-              <input type="file" accept="audio/*" onChange={handleAudioUpload} />
-            </div>
-          )}
-          {audioFile && <AudioPlayer />}
+    <div className="w-full h-screen items-center justify-center flex gap-3 flex-col">
+      <div className="flex flex-col h-[90%] w-[80%] border-4 items-center p-4 rounded-[10px]">
+        <div className="flex gap-[50px] flex-col lg:w-full p-4 rounded-lg">
+          <AudioPlayer/>
         </div>
-        <Script />
+        <div className="max-h-full overflow-y-auto lg:w-full px-[20px]">
+          <Script />
+        </div>
       </div>
     </div>
   );
