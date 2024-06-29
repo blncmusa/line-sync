@@ -5,8 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useStore } from "../../store/useStore";
 
 const AudioPlayer: React.FC = () => {
-  const { audioFile, setAudioFile, setCurrentTime, setAudioRef } = useStore();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { audioFile, setAudioFile, setCurrentTime, setAudioRef, setIsPlaying, isPlaying } = useStore();
   const [playbackRate, setPlaybackRate] = useState(1);
   const [currentTime, setCurrentTimeLocal] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -28,10 +27,11 @@ const AudioPlayer: React.FC = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
         audioRef.current.play();
+        setIsPlaying(true);
       }
-      setIsPlaying(!isPlaying);
     }
   };
 

@@ -2,6 +2,8 @@
 import React from "react";
 import { useStore } from "../../store/useStore";
 import { isArabic } from "../../utils/isArabic";
+import { formatTimestamp } from "../../utils/formatTimestamp";
+import Timestamp from "./Timestamp";
 
 const Script: React.FC = () => {
   const {
@@ -15,7 +17,8 @@ const Script: React.FC = () => {
     setCurrentLineIndex,
     setTimeStampForCurrentLine,
     audioRef,
-    currentTime
+    currentTime,
+    setIsPlaying,
   } = useStore();
 
   const lineRefs = React.useRef<HTMLParagraphElement[]>([]);
@@ -44,6 +47,15 @@ const Script: React.FC = () => {
     return lines;
   };
 
+  const handleLineClick = (index: number) => {
+    setCurrentLineIndex(index);
+    if (lines[index].timestamp && audioRef?.current) {
+        audioRef.current.currentTime = lines[index].timestamp || 0 // converting milliseconds to seconds
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+  }
+
   React.useEffect(() => {
    if(lineRefs.current[currentLineIndex]){
         lineRefs.current[currentLineIndex]
@@ -65,15 +77,21 @@ const Script: React.FC = () => {
       {scriptFile && (
         <div className={`${isArabic(scriptContent || "") ? "text-right" : "text-left"}`}>
           {lines.map((line, index) => (
-            <p
-              key={index}
-              ref={(element) => {
-                lineRefs.current[index] = element as HTMLParagraphElement;
-              }}
-              className={`lines ${index === currentLineIndex ? "bg-blue-400" : ""}`}
-            >
-              {line.text}
-            </p>
+            <div className="items-center flex flex-row-reverse justify-between">
+                <p
+                    key={index}
+                    ref={(element) => {
+                        lineRefs.current[index] = element as HTMLParagraphElement;
+                    }}
+                    className={`lines ${index === currentLineIndex ? "bg-blue-400" : ""}`}
+                    onClick={() => handleLineClick(index)}
+                    >
+                    {line.text}
+                </p>
+                {line.timestamp && (
+                    <Timestamp line={{ timestamp: line.timestamp }} />
+                )}
+            </div>
           ))}
         </div>
       )}

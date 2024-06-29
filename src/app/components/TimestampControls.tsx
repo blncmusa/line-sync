@@ -16,7 +16,11 @@ export default function TimestampControls(){
     };
     
     const handlePreviousLine = () => {
-        setCurrentLineIndex(currentLineIndex - 1);
+        if (currentLineIndex > 0) {
+          setCurrentLineIndex(currentLineIndex - 1);
+        } else {
+            setCurrentLineIndex(0);
+        }
     };
     
     const handleSetTimestamp = (timestamp: number) => {
@@ -29,13 +33,19 @@ export default function TimestampControls(){
 
     const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === "ArrowUp") {
-          handlePreviousLine();
+            event.preventDefault();
+            handlePreviousLine();
         } else if (event.key === "ArrowDown") {
-          handleNextLine();
+            event.preventDefault();
+            handleNextLine();
+
         } else if (event.key === " ") {
-          handleSetTimestamp(audioRef?.current?.currentTime ?? 0);
+            event.preventDefault();
+            handleSetTimestamp(audioRef?.current?.currentTime ?? 0);
+            handleNextLine();
         } else if (event.key === "Backspace") {
-          handleDeleteTimestamp();
+            event.preventDefault();
+            handleDeleteTimestamp();
         }
       }
 

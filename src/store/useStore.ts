@@ -13,6 +13,7 @@ interface AudioState {
     currentLineIndex: number;
     audioRef: React.RefObject<HTMLAudioElement> | null;
     currentTime: number | null;
+    isPlaying:  boolean;
     setLines: (lines: Line[]) => void;
     setCurrentLineIndex: (currentLineIndex: number) => void;
     setTimeStampForCurrentLine: (timestamp: number | null) => void;
@@ -21,6 +22,7 @@ interface AudioState {
     setAudioRef: (audioRef: React.RefObject<HTMLAudioElement>) => void;
     setScriptFile: (scriptFile: File | null) => void;
     setScriptContent: (scriptContent: string | null) => void;
+    setIsPlaying: (isPlaying: boolean) => void;
 }
 
 
@@ -32,10 +34,12 @@ export const useStore = create<AudioState>((set) => ({
     currentLineIndex: 0,
     audioRef: null,
     currentTime: 0,
+    isPlaying: false,
     setAudioRef: (audioRef) => set({ audioRef }),
     setCurrentTime: (currentTime) => set({ currentTime }),
     setAudioFile: (audioFile) => set({ audioFile }),
     setScriptFile: (scriptFile) => set({ scriptFile }),
+    setIsPlaying: (isPlaying) => set({ isPlaying }),
     setScriptContent: (scriptContent) => set({ scriptContent }),
     setLines: (lines) => set({ lines }),
     setCurrentLineIndex: (currentLineIndex) => set({ currentLineIndex }),
