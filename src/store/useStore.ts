@@ -18,12 +18,15 @@ interface AudioState {
     setCurrentLineIndex: (currentLineIndex: number) => void;
     setTimeStampForCurrentLine: (timestamp: number | null) => void;
     deleteTimestampForLine: (index: number) => void;
+    incrementTimestamp: (increment: number) => void;
+    decrementTimestamp: (decrement: number) => void;
     setAudioFile: (audioFile: string | null) => void;
     setCurrentTime: (currentTime: number) => void;
     setAudioRef: (audioRef: React.RefObject<HTMLAudioElement>) => void;
     setScriptFile: (scriptFile: File | null) => void;
     setScriptContent: (scriptContent: string | null) => void;
     setIsPlaying: (isPlaying: boolean) => void;
+    handleScriptRemove: () => void;
 }
 
 
@@ -60,5 +63,20 @@ export const useStore = create<AudioState>((set) => ({
             timestamp
         };
         return { lines: updatedLines };
-    })
+    }),
+    incrementTimestamp: (index) => set((state) => {
+        const updatedLines = [...state.lines];
+        if (updatedLines[index].timestamp !== null) {
+            updatedLines[index].timestamp! += 1; 
+        }
+        return { lines: updatedLines };
+    }),
+    decrementTimestamp: (index) => set((state) => {
+        const updatedLines = [...state.lines];
+        if (updatedLines[index].timestamp !== null && updatedLines[index].timestamp! >= 1000) {
+            updatedLines[index].timestamp! -= 1;
+        }
+        return { lines: updatedLines };
+    }),
+    handleScriptRemove: () => set({ scriptContent: null, scriptFile: null, lines: [], currentLineIndex: 0})
 }));

@@ -10,18 +10,18 @@ interface Line {
 
 export default function Timestamp({ line, index }: { line: Line, index: number}){
 
-    const { setTimeStampForCurrentLine, deleteTimestampForLine } = useStore()
+    const { setTimeStampForCurrentLine, deleteTimestampForLine, incrementTimestamp, decrementTimestamp } = useStore()
 
     const handleDeleteTimestamp = () => {
         deleteTimestampForLine(index);
     }
 
     const addOneSecond = () => {
-        setTimeStampForCurrentLine(line.timestamp + 1)
+        incrementTimestamp(index)
     }
 
     const subtractOneSecond = () => {
-        setTimeStampForCurrentLine(line.timestamp - 1)
+        decrementTimestamp(index)
     }
 
     return (

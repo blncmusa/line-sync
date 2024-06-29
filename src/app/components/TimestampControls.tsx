@@ -1,5 +1,7 @@
 import { useStore } from "../../store/useStore";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircleRight, faCircleLeft } from "@fortawesome/free-solid-svg-icons"
 
 export default function TimestampControls(){
 
@@ -60,15 +62,19 @@ export default function TimestampControls(){
     
 
     return (
-        <div className="flex gap-2 mt-4">
+        <div className="flex gap-[50px] mt-4">
         <button onClick={handlePreviousLine} disabled={currentLineIndex === 0}>
-          Previous Line
+          <FontAwesomeIcon icon={faCircleLeft} className="text-[50px]"/>
         </button>
-        <button onClick={handleNextLine} disabled={currentLineIndex === lines.length - 1}>
-          Next Line
-        </button>
-        <button onClick={() => handleSetTimestamp(audioRef?.current?.currentTime ?? 0)}>
+        <button 
+          onClick={() => handleSetTimestamp(audioRef?.current?.currentTime ?? 0)}
+          className="border-2 p-4 rounded-md"
+        >
           Set Timestamp
+        </button>
+        
+        <button onClick={handleNextLine} disabled={currentLineIndex === lines.length - 1}>
+          <FontAwesomeIcon icon={faCircleRight} className="text-[50px]"/>
         </button>
       </div>
     )
