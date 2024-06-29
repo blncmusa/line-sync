@@ -1,17 +1,21 @@
-import React, { useState, useRef } from "react";
+// components/AudioPlayer.tsx
+import React, { useState, useRef, useEffect } from "react";
 import { faPlay, faPause, faBackward, faForward } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useStore } from "../../store/useStore";
 
 const AudioPlayer: React.FC = () => {
-  const { audioFile, setAudioFile } = useStore();
+  const { audioFile, setAudioFile, setCurrentTime, setAudioRef } = useStore();
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTimeLocal] = useState(0);
   const [duration, setDuration] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  useEffect(() => {
+    setAudioRef(audioRef);
+  }, [setAudioRef]);
 
   const handleAudioUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -46,6 +50,7 @@ const AudioPlayer: React.FC = () => {
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
+      setCurrentTimeLocal(audioRef.current.currentTime);
       setCurrentTime(audioRef.current.currentTime);
     }
   };
@@ -56,14 +61,15 @@ const AudioPlayer: React.FC = () => {
     }
   };
 
-  if(!audioFile) return (
-    <div>
-      <h1>Upload Audio File</h1>
-      <input type="file" accept="audio/*" onChange={handleAudioUpload} />
-    </div>
-  )
+  if (!audioFile)
+    return (
+      <div className="flex w-full justify-center items-start space-x-4 border-b-4 pb-5 flex-col gap-3">
+        <h1>Upload Audio File</h1>
+        <input type="file" accept="audio/*" onChange={handleAudioUpload} />
+      </div>
+    );
 
- return (
+  return (
     <div className="flex w-full items-center space-x-4 border-b-4 pb-5">
       <audio
         ref={audioRef}
