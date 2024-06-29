@@ -69,9 +69,11 @@ const Script: React.FC = () => {
   return (
     <div>
       {!scriptFile && (
-        <div>
-          <h1>Upload Script File</h1>
-          <input type="file" accept=".txt" onChange={handleScriptUpload} />
+        <div className="w-full h-[500px] flex items-center justify-center border-2">
+            <div className="flex-col">
+                <h1>Upload Script File</h1>
+                <input type="file" accept=".txt" onChange={handleScriptUpload} />
+            </div>
         </div>
       )}
       {scriptFile && (

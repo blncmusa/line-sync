@@ -32,7 +32,7 @@ export default function Home() {
     <div>
       <button onClick={handleScriptRemove} className="p-2 bg-red-500 text-white rounded-md mt-2">Remove Script</button>
     </div>
-    {/* FIX THIS!!! */}
+    {/* FIX THIS!!! && fix decrement by 1 */}
     </>
   );
 }

@@ -73,8 +73,8 @@ export const useStore = create<AudioState>((set) => ({
     }),
     decrementTimestamp: (index) => set((state) => {
         const updatedLines = [...state.lines];
-        if (updatedLines[index].timestamp !== null && updatedLines[index].timestamp! >= 1000) {
-            updatedLines[index].timestamp! -= 1;
+        if (updatedLines[index].timestamp !== null) {
+            updatedLines[index].timestamp! -= 1; 
         }
         return { lines: updatedLines };
     }),
