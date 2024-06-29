@@ -27,11 +27,10 @@ const AudioPlayer: React.FC = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
-        setIsPlaying(false);
       } else {
         audioRef.current.play();
-        setIsPlaying(true);
       }
+      setIsPlaying(!isPlaying);
     }
   };
 
@@ -40,6 +39,27 @@ const AudioPlayer: React.FC = () => {
       audioRef.current.currentTime += seconds;
     }
   };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === " ") {
+      event.preventDefault();
+      togglePlayPause();
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      skipTime(5);
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      skipTime(-5);
+    }
+  }
+
+  React.useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }
+  , [isPlaying]);
 
   const changePlaybackRate = (rate: number) => {
     if (audioRef.current) {
@@ -70,7 +90,7 @@ const AudioPlayer: React.FC = () => {
     );
 
   return (
-    <div className="flex w-full items-center space-x-4 border-b-4 pb-5">
+    <div className="flex w-full items-center space-x-4 border-b-[3px] pb-5">
       <audio
         ref={audioRef}
         className="hidden"
@@ -81,18 +101,18 @@ const AudioPlayer: React.FC = () => {
         Your browser does not support the audio element.
       </audio>
       <button onClick={() => skipTime(-5)} className="p-2">
-        <FontAwesomeIcon icon={faBackward} /> 5s
+        <FontAwesomeIcon icon={faBackward} />
       </button>
       <button onClick={togglePlayPause} className="p-2">
         {isPlaying ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
       </button>
       <button onClick={() => skipTime(5)} className="p-2">
-        <FontAwesomeIcon icon={faForward} /> 5s
+        <FontAwesomeIcon icon={faForward} />
       </button>
       <select
         value={playbackRate}
         onChange={(e) => changePlaybackRate(Number(e.target.value))}
-        className="p-2 bg-black"
+        className="p-2 bg-inherit"
       >
         <option value={0.5}>0.5x</option>
         <option value={1}>1x</option>

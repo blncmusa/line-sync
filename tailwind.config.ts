@@ -18,7 +18,7 @@ const config: Config = {
         cairo: ["Cairo", "sans-serif"],
         tajawal: ["Tajawal", "sans-serif"],
       }
-    },
+    }
   },
   plugins: [],
 };

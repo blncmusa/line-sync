@@ -12,7 +12,9 @@ export default function TimestampControls(){
       } = useStore();
 
     const handleNextLine = () => {
+      if(currentLineIndex < lines.length - 1){
         setCurrentLineIndex(currentLineIndex + 1);
+      }
     };
     
     const handlePreviousLine = () => {
@@ -39,7 +41,7 @@ export default function TimestampControls(){
             event.preventDefault();
             handleNextLine();
 
-        } else if (event.key === " ") {
+        } else if (event.key === "Enter") {
             event.preventDefault();
             handleSetTimestamp(audioRef?.current?.currentTime ?? 0);
             handleNextLine();

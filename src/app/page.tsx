@@ -17,8 +17,8 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full h-screen items-center justify-center flex gap-3 flex-col">
-      <div className="flex flex-col h-[90%] w-[80%] border-4 items-center p-4 rounded-[10px]">
+    <div className="w-full h-screen items-center justify-center flex gap-3 flex-col bg-slate-900">
+      <div className="flex flex-col h-[90%] w-[80%] shadow-2xl items-center p-4 rounded-[10px] bg-blue-950">
         <div className="flex gap-[50px] flex-col lg:w-full p-4 rounded-lg">
           <AudioPlayer/>
         </div>
@@ -26,7 +26,7 @@ export default function Home() {
           <Script />
         </div>
       </div>
-      <TimestampControls />
+      <TimestampControls/>
     </div>
   );
 }

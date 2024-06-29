@@ -17,6 +17,7 @@ interface AudioState {
     setLines: (lines: Line[]) => void;
     setCurrentLineIndex: (currentLineIndex: number) => void;
     setTimeStampForCurrentLine: (timestamp: number | null) => void;
+    deleteTimestampForLine: (index: number) => void;
     setAudioFile: (audioFile: string | null) => void;
     setCurrentTime: (currentTime: number) => void;
     setAudioRef: (audioRef: React.RefObject<HTMLAudioElement>) => void;
@@ -39,7 +40,16 @@ export const useStore = create<AudioState>((set) => ({
     setCurrentTime: (currentTime) => set({ currentTime }),
     setAudioFile: (audioFile) => set({ audioFile }),
     setScriptFile: (scriptFile) => set({ scriptFile }),
-    setIsPlaying: (isPlaying) => set({ isPlaying }),
+    deleteTimestampForLine: (index) => set((state) => {
+        const updatedLines = [...state.lines];
+        updatedLines[index] = {
+            ...updatedLines[index],
+            timestamp: null
+        };
+        return { lines: updatedLines };
+        }
+    ),
+    setIsPlaying: (isPlaying) => set({ isPlaying }), 
     setScriptContent: (scriptContent) => set({ scriptContent }),
     setLines: (lines) => set({ lines }),
     setCurrentLineIndex: (currentLineIndex) => set({ currentLineIndex }),

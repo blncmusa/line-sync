@@ -89,7 +89,7 @@ const Script: React.FC = () => {
                     {line.text}
                 </p>
                 {line.timestamp && (
-                    <Timestamp line={{ timestamp: line.timestamp }} />
+                    <Timestamp line={{ timestamp: line.timestamp }} index={index} />
                 )}
             </div>
           ))}
