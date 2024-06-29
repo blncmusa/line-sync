@@ -18,6 +18,8 @@ const Script: React.FC = () => {
     currentTime
   } = useStore();
 
+  const lineRefs = React.useRef<HTMLParagraphElement[]>([]);
+
   const handleScriptUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -42,17 +44,15 @@ const Script: React.FC = () => {
     return lines;
   };
 
-  const handleNextLine = () => {
-    setCurrentLineIndex(currentLineIndex + 1);
-  };
-
-  const handlePreviousLine = () => {
-    setCurrentLineIndex(currentLineIndex - 1);
-  };
-
-  const handleSetTimestamp = (timestamp: number) => {
-    setTimeStampForCurrentLine(timestamp);
-  };
+  React.useEffect(() => {
+   if(lineRefs.current[currentLineIndex]){
+        lineRefs.current[currentLineIndex]
+        .scrollIntoView({
+            behavior: "smooth", 
+            block: "center"
+        })
+   }
+  }, [currentLineIndex]);
 
   return (
     <div>
@@ -67,24 +67,16 @@ const Script: React.FC = () => {
           {lines.map((line, index) => (
             <p
               key={index}
-              className={`lines ${index === currentLineIndex ? "bg-blue-200" : ""}`}
+              ref={(element) => {
+                lineRefs.current[index] = element as HTMLParagraphElement;
+              }}
+              className={`lines ${index === currentLineIndex ? "bg-blue-400" : ""}`}
             >
               {line.text}
             </p>
           ))}
         </div>
       )}
-          <div className="flex gap-2 mt-4">
-            <button onClick={handlePreviousLine} disabled={currentLineIndex === 0}>
-              Previous Line
-            </button>
-            <button onClick={handleNextLine} disabled={currentLineIndex === lines.length - 1}>
-              Next Line
-            </button>
-            <button onClick={() => handleSetTimestamp(audioRef?.current?.currentTime ?? 0)}>
-              Set Timestamp
-            </button>
-          </div>
     </div>
   );
 };

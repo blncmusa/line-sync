@@ -3,6 +3,7 @@
 import React from "react";
 import AudioPlayer from "./components/AudioPlayer";
 import Script from "./components/Script";
+import TimestampControls from "./components/TimestampControls";
 import { useStore } from "../store/useStore";
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
           <Script />
         </div>
       </div>
+      <TimestampControls />
     </div>
   );
 }

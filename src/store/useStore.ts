@@ -12,10 +12,10 @@ interface AudioState {
     lines: Line[];
     currentLineIndex: number;
     audioRef: React.RefObject<HTMLAudioElement> | null;
-    currentTime: number;
+    currentTime: number | null;
     setLines: (lines: Line[]) => void;
     setCurrentLineIndex: (currentLineIndex: number) => void;
-    setTimeStampForCurrentLine: (timestamp: number) => void;
+    setTimeStampForCurrentLine: (timestamp: number | null) => void;
     setAudioFile: (audioFile: string | null) => void;
     setCurrentTime: (currentTime: number) => void;
     setAudioRef: (audioRef: React.RefObject<HTMLAudioElement>) => void;
